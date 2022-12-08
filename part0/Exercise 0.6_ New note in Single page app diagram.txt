@@ -1,0 +1,25 @@
+title Exercise 0.6: New note in Single page app diagram
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    note over browser:
+    new_note_spa contains the new JSON data
+    contains the CONTENT and the TIME as well
+    end note
+server-->browser: Status Code 201
+    note over browser:
+    SERVER do not
+    requested a reload;
+    Stays on the same page;
+    data is sent as a JSON-string;
+    end note
+    
+
+note over browser:
+browser uses the JS coded
+fetched from the server
+end note
+
+note over browser:
+browser display the new array
+added to the BODY
+end note
