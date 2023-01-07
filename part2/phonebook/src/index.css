@@ -1,0 +1,17 @@
+* {
+  background-color: rgb(127, 224, 127);
+}
+
+div {
+  text-align: center;
+  font-family: monospace;
+}
+
+div ul {
+  display: inline-block;
+  text-align: left;
+}
+
+button {
+  margin-top: 10px;
+}
