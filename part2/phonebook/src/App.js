@@ -10,7 +10,7 @@ const App = () => {
     { name: "Cássio Gabriel", number: "1111-2222", id: 1 },
     { name: "Whindersson Nunes", number: "2222-5555", id: 2 },
     { name: "Caneta Azul", number: "6666-9999", id: 3 },
-    { name: "Edinaldo Pereira", number: "7777-8888", id: 4 }
+    { name: "Edinaldo Pereira", number: "7777-8888", id: 4 },
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
@@ -28,7 +28,7 @@ const App = () => {
         persons.concat({
           id: persons.length + 1,
           name: newName,
-          number: newNumber
+          number: newNumber,
         })
       );
       setNewName("");
