@@ -1,7 +1,10 @@
 const Search = ({ searchTerm, onSearch }) => {
   return (
     <div>
-      <input type="text" onChange={onSearch} value={searchTerm} />
+      <strong>
+        Find a country:{" "}
+        <input type="text" onChange={onSearch} value={searchTerm} />
+      </strong>
     </div>
   );
 };
