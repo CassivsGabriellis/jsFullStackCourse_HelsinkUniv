@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import addPersonService from "./Services/addPersons";
 import "./index.css";
 
 import Filter from "./Components/Filter";
 import PersonForm from "./Components/PersonForm";
 import Persons from "./Components/Persons";
-import axios from "axios";
+// import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,31 +13,22 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-useEffect(() => {
-  console.log('data going on...')
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('promised fulfilled')
-      setPersons(response.data)
-    })
-},[])
+  useEffect(() => {
+    addPersonService.getAll().then((data) => setPersons(data));
+  }, []);
 
   const addPerson = (event) => {
     event.preventDefault();
-
     const existingPerson = persons.find((person) => person.name === newName);
     if (existingPerson) {
       alert(`${newName} já está adicionada à lista telefônica!`);
       setNewName("");
     } else {
-      setPersons(
-        persons.concat({
-          id: persons.length + 1,
-          name: newName,
-          number: newNumber,
-        })
-      );
+      addPersonService
+        .create({ name: newName, number: newNumber })
+        .then(() => {
+          addPersonService.getAll().then((data) => setPersons(data));
+        });
       setNewName("");
       setNewNumber("");
     }
