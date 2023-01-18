@@ -42,7 +42,7 @@ const App = () => {
   };
 
   const content = !searchTerm ? (
-    <p>Enter a search query to see results.</p>
+    <p>Enter a country name to see results.</p>
   ) : searchResults.length === 0 ? (
     <p>No countries found.</p>
   ) : searchResults.length > 10 ? (
