@@ -23,7 +23,7 @@ const PersonForm = ({
             <input
               value={newName}
               onChange={handleNameChange}
-              pattern="[A-Za-z !@#$%^&()_+-=[]{};':\|,.<>/?]"
+              pattern="[A-Za-z'``\u00C0-\u017F]+"
             />
           </strong>
         </div>
@@ -39,7 +39,7 @@ const PersonForm = ({
           </strong>
         </div>
         <div>
-          <button type="submit">Adicionar</button>
+          <button type="submit">Add</button>
         </div>
       </div>
     </form>
