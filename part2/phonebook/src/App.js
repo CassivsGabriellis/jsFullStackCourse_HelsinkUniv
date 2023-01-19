@@ -5,7 +5,6 @@ import "./index.css";
 import Filter from "./Components/Filter";
 import PersonForm from "./Components/PersonForm";
 import Persons from "./Components/Persons";
-// import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -21,17 +20,34 @@ const App = () => {
     event.preventDefault();
     const existingPerson = persons.find((person) => person.name === newName);
     if (existingPerson) {
-      alert(`${newName} já está adicionada à lista telefônica!`);
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook. Do you want to replace the old number with the new one?`
+        )
+      ) {
+        addPersonService
+          .update(existingPerson.id, {
+            name: existingPerson.name,
+            number: newNumber,
+          })
+          .then(() => {
+            addPersonService.getAll().then((data) => setPersons(data));
+          });
+      }
       setNewName("");
     } else {
-      addPersonService
-        .create({ name: newName, number: newNumber })
-        .then(() => {
-          addPersonService.getAll().then((data) => setPersons(data));
-        });
+      addPersonService.create({ name: newName, number: newNumber }).then(() => {
+        addPersonService.getAll().then((data) => setPersons(data));
+      });
       setNewName("");
       setNewNumber("");
     }
+  };
+
+  const deletePerson = (id) => {
+    addPersonService.deletePerson(id).then(() => {
+      addPersonService.getAll().then((data) => setPersons(data));
+    });
   };
 
   const handleNameChange = (event) => {
@@ -46,17 +62,28 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredPersons = persons.filter((person) =>
-    person.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPersons = persons.filter((person) => {
+    const nameMatch = person.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const numberMatch = person.number
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    return nameMatch || numberMatch;
+  });
 
   return (
     <div>
-      <h3>Lista Telefônica</h3>
+      <h3 className="header">Phonebook</h3>
 
-      <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
+      <Filter
+        className="input"
+        searchTerm={searchTerm}
+        handleSearchChange={handleSearchChange}
+      />
 
       <PersonForm
+        className="input"
         addPerson={addPerson}
         newName={newName}
         newNumber={newNumber}
@@ -64,8 +91,8 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
 
-      <h3>Pessoas</h3>
-      <Persons persons={filteredPersons} />
+      <h3>Contacts</h3>
+      <Persons persons={filteredPersons} deletePerson={deletePerson} />
     </div>
   );
 };

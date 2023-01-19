@@ -2,6 +2,17 @@
   background-color: rgb(127, 224, 127);
 }
 
+.input-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+}
+
 div {
   text-align: center;
   font-family: monospace;
@@ -12,6 +23,14 @@ div ul {
   text-align: left;
 }
 
-button {
-  margin-top: 10px;
+.person-form {
+  display: flex;
+  text-align: center;
+  font-family: monospace;
+}
+
+@media (max-width: 600px) {
+  .input-container {
+    grid-template-columns: 1fr;
+  }
 }
