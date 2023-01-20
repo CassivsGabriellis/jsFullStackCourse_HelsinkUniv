@@ -29,6 +29,26 @@ div ul {
   font-family: monospace;
 }
 
+.notification {
+  color: green;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 600px) {
   .input-container {
     grid-template-columns: 1fr;

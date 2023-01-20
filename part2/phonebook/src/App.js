@@ -5,12 +5,16 @@ import "./index.css";
 import Filter from "./Components/Filter";
 import PersonForm from "./Components/PersonForm";
 import Persons from "./Components/Persons";
+import SucessMessage from "./Components/SucessMessage";
+import ErrorMessage from "./Components/ErrorMessage";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [sucessMessage, setSucessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     addPersonService.getAll().then((data) => setPersons(data));
@@ -32,12 +36,33 @@ const App = () => {
           })
           .then(() => {
             addPersonService.getAll().then((data) => setPersons(data));
+            setSucessMessage(
+              `Number for ${existingPerson.name} has been updated successfully!`
+            );
+            setTimeout(() => {
+              setSucessMessage(null);
+            }, 5000);
+          })
+          .catch((error) => {
+            setErrorMessage(
+              `Information of ${existingPerson.name} has already been removed from the server!`
+            );
+            setTimeout(() => {
+              setErrorMessage(null);
+              setPersons(
+                persons.filter((person) => person.name !== existingPerson.name)
+              );
+            }, 5000);
           });
       }
       setNewName("");
     } else {
       addPersonService.create({ name: newName, number: newNumber }).then(() => {
         addPersonService.getAll().then((data) => setPersons(data));
+        setSucessMessage(`${newName} was added to your Phonebook`);
+        setTimeout(() => {
+          setSucessMessage(null);
+        }, 5000);
       });
       setNewName("");
       setNewNumber("");
@@ -93,6 +118,9 @@ const App = () => {
 
       <h3>Contacts</h3>
       <Persons persons={filteredPersons} deletePerson={deletePerson} />
+
+      <SucessMessage message={sucessMessage} />
+      <ErrorMessage message={errorMessage} />
     </div>
   );
 };
