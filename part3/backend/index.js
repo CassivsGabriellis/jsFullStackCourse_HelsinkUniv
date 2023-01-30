@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-//notes array
+//array notes
 let notes = [
   {
     id: 1,
