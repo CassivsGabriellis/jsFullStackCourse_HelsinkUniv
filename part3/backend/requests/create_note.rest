@@ -1,0 +1,10 @@
+GET http://localhost:3002/api/notes/
+
+###
+POST http://localhost:3002/api/notes/
+content-type: application/json
+
+{
+    "content": "Achei um pêlo na casca do ovo",
+    "important": true
+}
