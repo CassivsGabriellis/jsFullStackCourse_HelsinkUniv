@@ -1,3 +1,6 @@
 # Ignore selected folders and files
-node_modules
-build
+node_modules/
+build/
+fly.toml
+Dockerfile
+.dockerignore
