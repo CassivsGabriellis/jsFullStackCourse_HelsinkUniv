@@ -1,8 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const app = express();
-
-app.use(express.json());
 
 let persons = [
   {
@@ -27,13 +26,23 @@ let persons = [
   },
 ];
 
+app.use(express.json());
+app.use(cors());
+
 //create the token in order to stringfy the data that we use to request the body
-morgan.token("requestBody", getReqBody = (request) => {
-  return JSON.stringify(request.body);
-});
+morgan.token(
+  "requestBody",
+  (getReqBody = (request) => {
+    return JSON.stringify(request.body);
+  })
+);
 
 //Use the "requestBody" token as it was passed to the morgan function
-app.use(morgan(":method :url :status :res[content-length] - :response-time ms :requestBody"));
+app.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms :requestBody"
+  )
+);
 
 app.get("/api/persons", (resquest, response) => {
   response.json(persons);
@@ -67,9 +76,9 @@ const generateId = () => {
   return Math.floor(Math.random() * (1000 - 100) + 100);
 };
 
-const generatePhoneNumber = () => {
-  return Math.floor(100000000 + Math.random() * 900000000).toString();
-};
+// const generatePhoneNumber = () => {
+//   return Math.floor(100000000 + Math.random() * 900000000).toString();
+// };
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
@@ -103,7 +112,7 @@ app.post("/api/persons", (request, response) => {
   response.json(person);
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Server is running at the ${PORT} port`);
+  console.log(`Server running on port ${PORT}`);
 });
