@@ -1,6 +1,14 @@
 GET http://localhost:3001/api/persons/
 
 ###
+POST https://listatelefonica00.fly.dev/api/persons
+Content-Type: application/json
+
+{
+    "name": "Marcus Aurelivs",
+    "number": "74859612"
+}
+###
 
 # Post request
 POST http://localhost:3001/api/persons/
