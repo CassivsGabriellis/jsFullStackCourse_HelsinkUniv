@@ -1,6 +1,5 @@
 node_modules/
 build/
-mongo.js
 
 fly.toml
 Dockerfile
