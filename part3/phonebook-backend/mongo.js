@@ -22,21 +22,21 @@ const phoneBookSchema = new mongoose.Schema({
 const Person = mongoose.model("Person", phoneBookSchema);
 
 if (process.argv.length === 3) {
-    //console.log("Phonebook: ")
-    Person.find({}).then((result) => {
-      result.forEach((person) => {
-        console.log("Phonebook: " + `${person.name} ${person.number}`);
-      });
-      mongoose.connection.close();
+  //console.log("Phonebook: ")
+  Person.find({}).then((result) => {
+    result.forEach((person) => {
+      console.log("Phonebook: " + `${person.name} ${person.number}`);
     });
-  } else {
-    const person = new Person({
-      name: name,
-      number: number,
-    });
-  
-    person.save().then((result) => {
-      console.log(`Added ${person.name} number ${person.number} to Phonebook`);
-      mongoose.connection.close();
-    });
-  }
+    mongoose.connection.close();
+  });
+} else {
+  const person = new Person({
+    name: name,
+    number: number,
+  });
+
+  person.save().then((result) => {
+    console.log(`Added ${person.name} number ${person.number} to Phonebook`);
+    mongoose.connection.close();
+  });
+}
