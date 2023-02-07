@@ -1,10 +1,10 @@
-GET http://localhost:3002/api/notes/
+GET http://localhost:3001api/notes/
 
 ###
-POST http://localhost:3002/api/notes/
+POST http://localhost:3001/api/notes/
 content-type: application/json
 
 {
-    "content": "Achei um pêlo na casca do ovo",
+    "content": "Olá!",
     "important": true
 }
