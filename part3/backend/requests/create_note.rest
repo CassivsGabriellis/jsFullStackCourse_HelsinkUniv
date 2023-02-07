@@ -5,6 +5,6 @@ POST http://localhost:3001/api/notes/
 content-type: application/json
 
 {
-    "content": "Olá!",
-    "important": true
+    "content": "Testando mais uma nota aleatória",
+    "important": false
 }
