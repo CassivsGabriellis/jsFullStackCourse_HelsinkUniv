@@ -1,3 +1,3 @@
 ## Phonebook App site
 
-> Link: https://listatelefonica00.fly.dev/
+> Link: https://phonebookappbr.fly.dev/
