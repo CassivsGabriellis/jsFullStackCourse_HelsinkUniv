@@ -1,34 +1,15 @@
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
+const Person = require("./models/person");
 
-let persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
+let persons = [];
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static('build'))
+app.use(express.static("build"));
 
 //create the token in order to stringfy the data that we use to request the body
 morgan.token(
@@ -46,74 +27,72 @@ app.use(
 );
 
 app.get("/api/persons", (resquest, response) => {
-  response.json(persons);
+  Person.find({}).then((persons) => {
+    response.json(persons);
+  });
 });
 
 app.get("/info", (request, response) => {
-  const date = new Date().toLocaleString();
-  const dataSize = persons.length;
-  response.send(`
-  <p>Phonebook has only ${dataSize} entries.</p>
-  <p>${date}</p>`);
+  Person.find({}).then((persons) => {
+    const date = new Date().toLocaleString();
+    const dataSize = persons.length;
+    response.send(`
+    <p>Phonebook has only ${dataSize} entries.</p>
+    <p>${date}</p>`);
+  });
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((person) => person.id === id);
-
-  person
-    ? response.json(person)
-    : response.status(404).end("Error! Did not find the ID.");
+  Person.findById(request.params.id).then((person) => {
+    response.json(person);
+  });
 });
-
-app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((person) => person.id !== id);
-
-  response.status(204).end("The ID was deleted.");
-});
-
-const generateId = () => {
-  return Math.floor(Math.random() * (1000 - 100) + 100);
-};
-
-// const generatePhoneNumber = () => {
-//   return Math.floor(100000000 + Math.random() * 900000000).toString();
-// };
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
-  if (!body.name) {
+  if (!body.name || !body.number) {
     return response.status(400).json({
-      error: "The name is missing",
+      error: "The name and number are required!",
     });
   }
 
-  if (!body.number) {
-    return response.status(400).json({
-      error: "The number is missing",
+  const newPerson = new Person({
+    name: body.name,
+    number: body.number,
+  });
+
+  newPerson
+    .save()
+    .then((savedPerson) => {
+      response.json(savedPerson);
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(400).send({ error: "Unable to save to database!" });
     });
-  }
-
-  const existingPerson = persons.find((person) => person.name === body.name);
-  if (existingPerson) {
-    return response.status(400).json({
-      error: "Name must be unique",
-    });
-  }
-
-  const person = {
-    id: generateId(),
-    name: body.name || false,
-    number: body.number || false,
-  };
-
-  persons = persons.concat(person);
-  response.json(person);
 });
 
-const PORT = process.env.PORT || 3001;
+app.delete("/api/persons/:id", (request, response) => {
+  Person.findByIdAndRemove(request.params.id)
+    .then(() => {
+      response.status(204).end("The ID was deleted.");
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(400).send({ error: "Invalid ID!" });
+    });
+});
+
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+// const generateId = () => {
+//   return Math.floor(Math.random() * (1000 - 100) + 100);
+// };
+
+// const generatePhoneNumber = () => {
+//   return Math.floor(100000000 + Math.random() * 900000000).toString();
+// };
