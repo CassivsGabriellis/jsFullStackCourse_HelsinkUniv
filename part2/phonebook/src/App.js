@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import addPersonService from "./Services/addPersons";
 import "./index.css";
 
+import addPersonService from "./Services/addPersons";
 import Filter from "./Components/Filter";
 import PersonForm from "./Components/PersonForm";
 import Persons from "./Components/Persons";

@@ -1,9 +1,6 @@
-const SucessMessage = ({ message }) => {
-  if (message === null) {
-    return null;
-  }
+import Message from "./Message";
 
-  return <div className="notification">{message}</div>;
-};
-
-export default SucessMessage;
+const SuccessMessage = ({ message }) => (
+  <Message message={message} className="notification" />
+);
+export default SuccessMessage;

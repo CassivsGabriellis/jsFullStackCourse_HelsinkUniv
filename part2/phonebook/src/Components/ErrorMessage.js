@@ -1,9 +1,6 @@
-const ErrorMessage = ({ message }) => {
-    if (message === null) {
-        return null;
-    }
+import Message from "./Message";
 
-    return <div className="error">{message}</div>;
-};
-
+const ErrorMessage = ({ message }) => (
+  <Message message={message} className="error" />
+);
 export default ErrorMessage;
