@@ -55,7 +55,8 @@ const App = () => {
             }, 5000);
           });
       }
-      setNewName("");
+      setNewName("")
+      setNewNumber("");
     } else {
       addPersonService.create({ name: newName, number: newNumber }).then(() => {
         addPersonService.getAll().then((data) => setPersons(data));
