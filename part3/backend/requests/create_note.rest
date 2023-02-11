@@ -8,3 +8,9 @@ content-type: application/json
     "content": "Testando mais uma nota aleatória",
     "important": false
 }
+
+###
+PUT http://localhost:3001/api/notes/
+
+###
+DELETE http://localhost:3001/api/notes/
