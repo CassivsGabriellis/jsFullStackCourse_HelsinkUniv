@@ -41,7 +41,7 @@ const App = () => {
             );
             setTimeout(() => {
               setSucessMessage(null);
-            }, 5000);
+            }, 3500);
           })
           .catch((error) => {
             setErrorMessage(
@@ -52,21 +52,29 @@ const App = () => {
               setPersons(
                 persons.filter((person) => person.name !== existingPerson.name)
               );
-            }, 5000);
+            }, 3500);
           });
       }
-      setNewName("")
-      setNewNumber("");
-    } else {
-      addPersonService.create({ name: newName, number: newNumber }).then(() => {
-        addPersonService.getAll().then((data) => setPersons(data));
-        setSucessMessage(`${newName} was added to your Phonebook`);
-        setTimeout(() => {
-          setSucessMessage(null);
-        }, 5000);
-      });
       setNewName("");
       setNewNumber("");
+    } else {
+      addPersonService
+        .create({ name: newName, number: newNumber })
+        .then(() => {
+          addPersonService.getAll().then((data) => setPersons(data));
+          setSucessMessage(`${newName} was added to your Phonebook`);
+          setTimeout(() => {
+            setSucessMessage(null);
+          }, 3500);
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => {
+          setErrorMessage(error.response.data.error);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 3500);
+        });
     }
   };
 
