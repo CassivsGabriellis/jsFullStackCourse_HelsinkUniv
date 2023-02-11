@@ -4,9 +4,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
 const Person = require("./models/person");
-const { response } = require("express");
 
-let persons = [];
+// let persons = [];
 
 app.use(express.static("build"));
 app.use(express.json());
@@ -15,6 +14,7 @@ app.use(cors());
 //create the token in order to stringfy the data that we use to request the body
 morgan.token(
   "requestBody",
+  // eslint-disable-next-line no-undef
   (getReqBody = (request) => {
     return JSON.stringify(request.body);
   })
@@ -91,7 +91,7 @@ app.put("/api/persons/:id", (request, response, next) => {
 
 app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end("The ID was deleted.");
     })
     .catch((error) => next(error));
