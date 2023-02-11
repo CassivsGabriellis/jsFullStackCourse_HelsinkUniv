@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
 const Note = require("./models/note");
 
@@ -33,17 +32,13 @@ app.get("/api/notes", (request, response) => {
 app.get("/api/notes/:id", (request, response, next) => {
   Note.findById(request.params.id)
     .then((note) => {
-      if (note) {
-        response.json(note);
-      } else {
-        response.status(404).end();
-      }
+      note ? response.json(note) : response.status(404).end();
     })
     .catch((error) => next(error));
 });
 
 app.post("/api/notes", (request, response, next) => {
-  const { body } = request.body;
+  const body = request.body;
 
   if (body.content === undefined) {
     return response.status(400).json({ error: "content missing" });
